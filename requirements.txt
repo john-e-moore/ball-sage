@@ -24,7 +24,7 @@ jiter==0.5.0
 jmespath==1.0.1
 MarkupSafe==2.1.5
 nfl_data_py==0.3.2
-numpy==2.0.1
+numpy==1.26.0
 openai==1.41.0
 openpyxl==3.1.5
 packaging==24.1
