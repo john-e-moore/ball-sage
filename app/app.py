@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template, redirect, jsonify, url_for
 import openai
 import duckdb
 import json
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 # Define filepaths
 db_filepath = 'data/ballsage.duckdb'
-schema_filepath = 'data/ballsage_schema.json'
+schema_filepath = 'data/ballsage-schema_20240818163342.json'
 
 # Maximum number of attempts to generate a valid SQL query
 max_queries = 3
@@ -68,6 +68,11 @@ def generate_sql_query(user_query, error_feedback, attempts=1):
         because any extra text will cause this application to crash. 
         If the query has errors, refine it using the validation feedback.
 
+        A user may request data on a team using the team's full name (e.g. Houston Texans)
+        rather than the team's abbreviation (e.g. HOU). Do not be thrown off by this. Most
+        of the time when you are filtering results in a WHERE or HAVING clause the query should
+        return some data; it should not be empty.
+
         Schema: {schema}
         User request: {user_query}
         
@@ -108,6 +113,38 @@ def generate_sql_query(user_query, error_feedback, attempts=1):
             user_query = f"{user_query}\nValidation Feedback: {validation_message}"
     
     return None, "Max retries exceeded. Unable to generate a valid SQL query."
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/results', methods=['GET'])
+def results():
+    attempt = 1
+    error_feedback = ""
+    while attempt < max_queries:
+        query = request.args.get('query')
+        if not query:
+            return redirect(url_for('index'))
+
+        sql_query, error = generate_sql_query(query, error_feedback)
+        if error: # Try again
+            if attempt < max_queries:
+                attempt += 1
+                error_feedback = f"""
+                    Error: Error writing executable SQL query.
+                    Details: {str(error)}
+                """
+                continue
+        else: # Execute query
+            # Try/except for empty return?
+            with duckdb.connect(database=db_filepath) as conn:
+                result = conn.execute(sql_query).fetchall()
+                columns = [desc[0] for desc in conn.description]
+                return render_template('results.html', result=result, columns=columns)
+
+    
+    return f"Max attempts {attempt} reached"
 
 @app.route('/query', methods=['POST'])
 def query():
@@ -153,5 +190,6 @@ def query():
     
     # Max attempts reached.
     return f"Max attempts {attempt} reached"
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -4,12 +4,22 @@ import duckdb
 import json
 import time
 import sys
+from datetime import datetime
+
+def generate_timestamp():
+    return datetime.now().strftime('%Y%m%d%H%M%S')
 
 def write_weekly_cols():
-    with open('./data/nfl_weekly_cols', 'w') as f:
+    with open('app/data/nfl_weekly_cols', 'w') as f:
         weekly_cols_str = nfl.see_weekly_cols().to_series().to_string(index=False)
         f.write(weekly_cols_str)
     print("Weekly cols saved.")
+
+def write_pbp_cols():
+    with open('app/data/nfl_pbp_cols', 'w') as f:
+        pbp_cols_str = nfl.see_pbp_cols().to_series().to_string(index=False)
+        f.write(pbp_cols_str)
+    print("Play-by-play cols saved.")
 
 def insert_df_to_duckdb(df: pd.DataFrame, duckdb_filepath: str, table: str) -> None:
     with duckdb.connect(database=duckdb_filepath) as conn:
@@ -25,13 +35,20 @@ def export_duckdb_schema(filepath) -> None:
     pass
 
 if __name__ == "__main__":
+    
     ################################################################################
     # Ingest
     ################################################################################
     start_year = 2013
     end_year = 2024
     years = [year for year in range(start_year, end_year)]
-    duckdb_filepath = './data/ballsage.duckdb'
+    duckdb_filepath = 'app/data/ballsage.duckdb'
+
+    """
+    # Play-by-play data
+    #write_pbp_cols()
+    df = nfl.import_pbp_data(years=years, downcast=True, cache=False, alt_path=None)
+    insert_df_to_duckdb(df, duckdb_filepath, 'play_by_play')
 
     # Write weekly player data columns to text file.
     write_weekly_cols()
@@ -71,6 +88,7 @@ if __name__ == "__main__":
     insert_df_to_duckdb(df, duckdb_filepath, 'combine_data')
     print("combine_data inserted.")
 
+    """
     ################################################################################
     # Export schema
     ################################################################################
@@ -96,7 +114,8 @@ if __name__ == "__main__":
             ]
 
     # Save the schema to a JSON file
-    with open('./data/ballsage_schema.json', 'w') as f:
+    timestamp = generate_timestamp()
+    with open(f'app/data/ballsage-schema_{timestamp}.json', 'w') as f:
         json.dump(schema, f, indent=4)
 
     # Optionally, print the JSON schema to pass it as context
