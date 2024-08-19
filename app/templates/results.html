@@ -8,43 +8,18 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom Styles -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-        }
-        .navbar {
-            background-color: #343a40;
-            border-radius: 10px;
-        }
-        .navbar-brand {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffffff !important;
-        }
-        .navbar-nav .nav-link {
-            color: #ffffff !important;
-        }
-        .results-table {
-            margin: 50px auto;
-            max-width: 90%;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-        }
-        .table {
-            background-color: #ffffff;
-            border-radius: 10px;
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
             <a class="navbar-brand" href="/">Football Sage</a>
-            <div class="collapse navbar-collapse justify-content-end">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="/docs">Docs</a>
@@ -63,6 +38,22 @@
             </div>
         </div>
     </nav>
+
+    <!-- Natural Language Query Display -->
+    <div class="container mt-4">
+        <button class="btn btn-primary mb-3" id="toggle-nl-query">Show Natural Language Query</button>
+        <div id="nl-query" class="card card-body" style="display: none;">
+            <pre>{{ nl_query }}</pre>
+        </div>
+    </div>
+
+    <!-- SQL Query Display -->
+    <div class="container mt-4">
+        <button class="btn btn-primary mb-3" id="toggle-sql">Show SQL Query</button>
+        <div id="sql-query" class="card card-body" style="display: none;">
+            <pre>{{ sql_query }}</pre>
+        </div>
+    </div>
 
     <!-- Results Table -->
     <div class="container results-table">
@@ -99,5 +90,7 @@
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>

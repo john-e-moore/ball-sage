@@ -73,6 +73,10 @@ def generate_sql_query(user_query, error_feedback, attempts=1):
         of the time when you are filtering results in a WHERE or HAVING clause the query should
         return some data; it should not be empty.
 
+        The same goes for player names. If a user queries a name that is similar but not equal to 
+        a player name in the database, you should assume they are trying to refer to the player who
+        is present in the data.
+
         Schema: {schema}
         User request: {user_query}
         
@@ -141,9 +145,8 @@ def results():
             with duckdb.connect(database=db_filepath) as conn:
                 result = conn.execute(sql_query).fetchall()
                 columns = [desc[0] for desc in conn.description]
-                return render_template('results.html', result=result, columns=columns)
+                return render_template('results.html', result=result, columns=columns, sql_query=sql_query, nl_query=query)
 
-    
     return f"Max attempts {attempt} reached"
 
 @app.route('/query', methods=['POST'])
