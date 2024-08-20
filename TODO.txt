@@ -1,5 +1,6 @@
 xxx. Rename repo
-2. React tutorial
-3. Develop flask backend endpoints using old code
-4. Try getting react frontend displayed in browser
+xxx React tutorial
+xxx Try getting react frontend displayed in browser
+3b. Move "Football Sage" text to above search bar (non-link) and replace top-left with logo
+4. Develop flask backend endpoints using old code
 5. Get app to work
