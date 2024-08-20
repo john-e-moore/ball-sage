@@ -2,3 +2,50 @@ venv/
 data/
 *__pycache__*
 playground.py
+
+# Node modules
+/node_modules
+
+# Build output
+/dist
+/build
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+
+# Coverage directory used by tools like istanbul
+/coverage
+
+# Next.js specific
+.next
+out
+
+# Tailwind CSS
+tailwind.output.css

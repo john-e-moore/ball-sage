@@ -1,5 +1,5 @@
 xxx. Rename repo
-2. Watch react youtube video
+2. React tutorial
 3. Develop flask backend endpoints using old code
 4. Try getting react frontend displayed in browser
 5. Get app to work
