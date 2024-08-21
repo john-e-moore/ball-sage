@@ -36,7 +36,7 @@ export default function Component() {
       </main>
       <footer className="w-full bg-transparent px-4 py-3 text-sm text-gray-500 flex items-center justify-center">
         <CopyrightIcon className="h-4 w-4 mr-2" />
-        <span>2024 Trade Secrets Data LLC</span>
+        <span>2024 Trade Secrets Data LLC. All rights reserved.</span>
       </footer>
     </div>
   )
