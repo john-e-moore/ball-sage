@@ -2,30 +2,30 @@
 
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import SearchBar from '@/components/ui/search-bar'
+import { Result } from '@/components/ui/result'
 
 export default function SearchResults() {
   const searchParams = useSearchParams()
   const resultsParam = searchParams.get('results')
+  const queryParam = searchParams.get('query')
   const results = resultsParam ? JSON.parse(decodeURIComponent(resultsParam)) : []
+  const [searchTerm, setSearchTerm] = useState(queryParam || '')
+
+  useEffect(() => {
+    setSearchTerm(queryParam || '')
+  }, [queryParam])
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Search Results</h1>
-      {results.length > 0 ? (
-        <ul className="space-y-4">
-          {results.map((result, index) => (
-            <li key={index} className="bg-white rounded-lg shadow-md p-4">
-              <h2 className="text-xl font-semibold">{result.query}</h2>
-              <p className="mt-2">{result.response}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No results found.</p>
-      )}
-      <Link href="/" className="mt-8 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Back to Search
-      </Link>
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-1 flex flex-col items-center pt-60">
+        <SearchBar initialSearchTerm={searchTerm} />
+        <Result result={results} />
+        <Link href="/" className="mt-8 inline-block bg-gray-200 text-gray-800 px-6 py-3 rounded-full hover:bg-gray-300 transition duration-300">
+          Back to Search
+        </Link>
+      </main>
     </div>
   )
 }
