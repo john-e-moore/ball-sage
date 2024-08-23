@@ -27,8 +27,6 @@ def query():
             if error: # Try again if max retries not exceeded
                 continue 
             else: # Execute query
-                #db_path = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'your_database.duckdb')
-                #db_path = os.path.abspath(db_path)
                 with duckdb.connect(database=Config.DB_FILEPATH) as conn:
                     result = conn.execute(sql_query).fetchall()
 
