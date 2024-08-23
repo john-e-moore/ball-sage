@@ -58,16 +58,16 @@ export default function Component() {
           </div>
         </div>
         {searchResults.length > 0 && (
-          <div className="mt-4 w-full max-w-lg">
-            <ul className="space-y-2">
-              {searchResults.map((result, index) => (
-                <li key={index} className="bg-white rounded-lg shadow-md p-4 hover:bg-gray-100 transition-colors">
-                  <h3 className="text-lg font-bold">{result.title}</h3>
-                  <p className="text-gray-600">{result.description}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-4 w-full max-w-lg">
+          <ul className="space-y-2">
+            {searchResults.map((result, index) => (
+              <li key={index} className="bg-white rounded-lg shadow-md p-4 hover:bg-gray-100 transition-colors">
+                <h3 className="text-lg font-bold">{result.query}</h3>
+                <p className="text-gray-600">{result.response}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
         )}
       </main>
       <footer className="w-full bg-transparent px-4 py-3 text-sm text-gray-500 flex items-center justify-center">
