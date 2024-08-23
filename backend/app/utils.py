@@ -34,6 +34,7 @@ def validate_sql_query(sql_query):
     return True, "SQL query is safe to execute."
 
 def generate_sql_query(user_query, error_feedback, attempts=1):
+    db_schema = load_schema()
     
     prompt = f"""
     You are an SQL expert. Given the database schema below, write a correct 
@@ -50,7 +51,7 @@ def generate_sql_query(user_query, error_feedback, attempts=1):
     a player name in the database, you should assume they are trying to refer to the player who
     is present in the data.
 
-    Schema: {Config.SCHEMA_FILEPATH}
+    Schema: {db_schema}
     User request: {user_query}
     
     SQL query:
