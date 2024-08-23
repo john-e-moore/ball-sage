@@ -11,7 +11,13 @@ export default function SearchBar({ initialSearchTerm = "" }) {
   const handleSearch = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(searchTerm)}`)
+      const response = await fetch(`http://localhost:5000/api/query`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query: searchTerm })
+      })
       const data = await response.json()
       const searchResults = data["search-results"]
       router.push(`/search-results?query=${encodeURIComponent(searchTerm)}&results=${encodeURIComponent(JSON.stringify(searchResults))}`)
