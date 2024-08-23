@@ -21,10 +21,9 @@ export default function SearchResults() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1 flex flex-col items-center pt-60">
         <SearchBar initialSearchTerm={searchTerm} />
-        <Result result={results} />
-        <Link href="/" className="mt-8 inline-block bg-gray-200 text-gray-800 px-6 py-3 rounded-full hover:bg-gray-300 transition duration-300">
-          Back to Search
-        </Link>
+        <div className="mt-8"> {/* Add margin-top to create space */}
+          <Result result={results} />
+        </div>
       </main>
     </div>
   )

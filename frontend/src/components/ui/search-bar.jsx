@@ -27,7 +27,7 @@ export default function SearchBar({ initialSearchTerm = "" }) {
       <Input
         type="search"
         placeholder="Search..."
-        className="w-full rounded-full bg-white px-5 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+        className="w-full rounded-full bg-white px-5 py-3 pr-16 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={(e) => {
