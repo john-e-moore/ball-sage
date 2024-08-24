@@ -1,0 +1,30 @@
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: #fff; /* Set background color to white */
+}
+
+.styled-table th {
+    cursor: pointer;
+    background-color: #fff;
+    text-align: left;
+}
+
+.styled-table th .sort-arrows {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.styled-table th .sort-arrows span {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.styled-table th .sort-arrows span.active {
+    color: #000;
+}
