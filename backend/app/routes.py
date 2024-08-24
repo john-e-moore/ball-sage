@@ -28,31 +28,40 @@ def query():
                 continue 
             else: # Execute query
                 with duckdb.connect(database=Config.DB_FILEPATH) as conn:
-                    result = conn.execute(sql_query).fetchall()
+                    cursor = conn.execute(sql_query)
+                    columns = [desc[0] for desc in cursor.description]
+                    rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+                    #result = conn.execute(sql_query).fetchall()
 
                 return jsonify({
                     "search-results": [
                         {
-                            "result": result, 
+                            "result": rows, 
+                            "sql": sql_query,
                             "attempts": attempt
                         }
                     ]
                 })
     except openai.OpenAIError as e:
         return jsonify({
+                    "attempts": attempt,
                     "query": user_query,
                     "error": "Error communicating with OpenAI API",
                     "details": str(e)
                 }), 500
     except duckdb.Error as e:
         return jsonify({
+                    "attempts": attempt,
                     "query": user_query,
                     "error": "Database error",
                     "details": str(e)
                 }), 500
     except Exception as e:
         return jsonify({
+                    "attempts": attempt,
                     "query": user_query,
+                    "sql": sql_query,
                     "error": "An unexpected error occurred",
                     "details": str(e)
                 }), 500
@@ -60,7 +69,9 @@ def query():
     return jsonify({
                 "search-results": [
                     {
+                        "attempts": attempt,
                         "query": user_query,
+                        "sql": sql_query,
                         "error": f"Max attempts of {Config.MAX_RETRIES} reached",
                         "details": str(e)
                     }

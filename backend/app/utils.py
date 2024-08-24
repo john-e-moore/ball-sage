@@ -51,6 +51,12 @@ def generate_sql_query(user_query, error_feedback, attempts=1):
     a player name in the database, you should assume they are trying to refer to the player who
     is present in the data.
 
+    Be sure to include column aliases for your selected columns.
+
+    If returning player names or team names, always select those as the leftmost columns.
+
+    Round numeric values to 1 decimal place.
+
     Schema: {db_schema}
     User request: {user_query}
     
